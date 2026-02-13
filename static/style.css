@@ -1,195 +1,251 @@
+:root {
+--list-layout:
+    60px
+    1.5fr     /* Project tighter */
+    140px     /* Status fixed width */
+    200px;    /* Automation column */
+    200px;    /* Automation column */
+}
+
 /* ===== Base ===== */
 body {
     font-family: Arial, sans-serif;
-    background: #0f1117;
-    color: #eaeaea;
-    padding: 20px;
+    background:#0f1117;
+    color:#eaeaea;
+    padding:20px;
 }
 
-h1 {
-    margin-bottom: 20px;
+body.list-view .status {
+    justify-self: start;
+    text-align: left;
 }
+
+h1 { margin-bottom:20px; }
+
+/* ===== View Toggle ===== */
+.view-toggle {
+    display:flex;
+    justify-content:flex-end;
+    gap:6px;
+    margin-bottom:14px;
+}
+
+.view-toggle button {
+    border:none;
+    background:#1e222c;
+    color:white;
+    padding:6px 10px;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+.view-toggle button.active { background:#4caf50; }
 
 /* ===== Status Rows ===== */
-.status-row {
-    margin-bottom: 14px;
-}
+.status-row { margin-bottom:14px; }
 
 .status-header {
-    padding: 12px 16px;
-    font-weight: bold;
-    cursor: pointer;
-    border-radius: 6px;
-    background: #1e222c;
-    user-select: none;
-}
-/* ===== Accordion Arrow ===== */
-.status-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:12px 16px;
+    font-weight:bold;
+    cursor:pointer;
+    border-radius:6px;
+    background:#1e222c;
 }
 
-/* Arrow icon */
 .status-header .arrow {
-    width: 0;
-    height: 0;
-    border-left: 6px solid #ccc;
-    border-top: 5px solid transparent;
-    border-bottom: 5px solid transparent;
-    transition: transform 0.25s ease;
+    width:0;height:0;
+    border-left:6px solid #ccc;
+    border-top:5px solid transparent;
+    border-bottom:5px solid transparent;
+    transition:transform .25s ease;
 }
 
-/* Rotate arrow when row is expanded */
-.status-row.active .status-header .arrow {
-    transform: rotate(90deg);
-}
-
-/* Status colors */
-.status-header.at-risk { background: #3a1f1f; }
-.status-header.lagging { background: #402000; }
-.status-header.in-progress { background: #1f2f40; }
-.status-header.achieved { background: #1f4025; }
-.status-header.not-started { background: #333; }
+.status-row.active .arrow { transform:rotate(90deg); }
 
 /* ===== Accordion ===== */
-.status-content {
-    display: none;
-    margin-top: 12px;
+.status-content { display:none; margin-top:12px; }
+.status-row.active .status-content { display:block; }
+
+/* ===== GRID VIEW ===== */
+.card-container {
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+    gap:16px;
 }
 
-.status-row.active .status-content {
-    display: block;
-}
-
-/* ===== Grid ===== */
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 16px;
-}
-
-/* ===== Cards ===== */
 .card {
-    background: #1b1f2a;
-    border-radius: 10px;
-    padding: 14px;
-    position: relative;
+    background:#1b1f2a;
+    border-radius:10px;
+    padding:14px;
+    position:relative;
+    transition:.18s ease;
 }
 
 .serial {
-    position: absolute;
-    top: 8px;
-    right: 10px;
-    opacity: 0.4;
-    font-size: 12px;
+    position:absolute;
+    top:8px;
+    right:10px;
+    opacity:.4;
+    font-size:12px;
 }
 
 .card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
 }
 
 .status {
-    padding: 4px 8px;
-    border-radius: 12px;
-    font-size: 12px;
+    padding:4px 8px;
+    border-radius:12px;
+    font-size:12px;
 }
 
-/* Status badges */
-.status.at-risk { background: #a33; }
-.status.lagging { background: #c60; }
-.status.in-progress { background: #369; }
-.status.achieved { background: #3a6; }
-.status.not-started { background: #666; }
+.status.at-risk{background:#a33;}
+.status.lagging{background:#c60;}
+.status.in-progress{background:#369;}
+.status.achieved{background:#3a6;}
+.status.not-started{background:#666;}
 
-/* ===== Metrics ===== */
-.metric {
-    margin: 12px 0;
-}
+.metric { margin:12px 0; }
 
 .metric-value {
-    font-size: 26px;
-    font-weight: bold;
+    font-size:26px;
+    font-weight:bold;
 }
 
-/* ===== Donut Progress ===== */
+/* ===== DONUT ===== */
 .donut {
-    --size: 90px;
-    --thickness: 12px;
-    --ring-color: #4caf50; /* default fallback */
+    --size:90px;
+    --thickness:12px;
+    --ring-color:#4caf50;
 
-    width: var(--size);
-    height: var(--size);
-    border-radius: 50%;
-    position: relative;
+    width:var(--size);
+    height:var(--size);
+    border-radius:50%;
+    position:relative;
 
-    background: conic-gradient(
-        var(--ring-color) calc(var(--value) * 1%),
+    background:conic-gradient(
+        var(--ring-color) calc(var(--value)*1%),
         #2a2f3a 0
     );
 
-    display: flex;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:12px auto;
+}
+
+.donut::before {
+    content:"";
+    position:absolute;
+    inset:var(--thickness);
+    background:#1b1f2a;
+    border-radius:50%;
+}
+
+.donut span {
+    position:relative;
+    font-weight:bold;
+    font-size:14px;
+}
+
+/* ===== LIST MODE ===== */
+
+.list-header { display:none; }
+
+body.list-view .list-header {
+    display:grid;
+    grid-template-columns:var(--list-layout);
+    position:sticky;
+    top:0;
+    background:#0f1117;
+    padding:10px 16px;
+    margin-bottom:8px;
+    font-size:12px;
+    font-weight:600;
+    border-bottom:1px solid #2a2f3a;
+}
+
+body.list-view .card-container { display:block; }
+
+body.list-view .card {
+    display:grid;
+    grid-template-columns:var(--list-layout);
+    align-items:center;
+    gap:14px;
+    padding:12px 16px;
+    margin-bottom:8px;
+}
+
+body.list-view .serial { position:static; }
+
+body.list-view .card-content,
+body.list-view .card-header { display:contents; }
+
+body.list-view .donut { display:none; }
+
+body.list-view .metric {
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin:0;
+}
+
+body.list-view .metric-value {
+    font-size:14px;
+    font-weight:600;
+    min-width:38px;
+}
+
+/* KPI BAR */
+.list-progress { display:none; }
+
+body.list-view .list-progress {
+    display:block;
+    flex:1;
+    height:6px;
+    background:#2a2f3a;
+    border-radius:6px;
+    overflow:hidden;
+}
+
+.list-progress-fill {
+    height:100%;
+    background:#4caf50;
+}
+
+/* ===== Project Name Limit ===== */
+.project-title {
+    max-width: 70ch;       /* 70 characters approx */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.status {
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    margin: 12px auto;
-}
 
-/* Inner cutout → makes it doughnut */
-.donut::before {
-    content: "";
-    position: absolute;
-    inset: var(--thickness);
-    background: #1b1f2a;
-    border-radius: 50%;
-}
-
-/* Text above ring */
-.donut span {
-    position: relative;
-    font-weight: bold;
-    font-size: 14px;
-}
-
-/* ===== Status-based colors ===== */
-.donut.at-risk { --ring-color: #e74c3c; }
-.donut.lagging { --ring-color: #f39c12; }
-.donut.in-progress { --ring-color: #3498db; }
-.donut.achieved { --ring-color: #2ecc71; }
-.donut.not-started { --ring-color: #7f8c8d; }
-
-/* ===== Meta ===== */
-.grid-meta {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
-    margin-top: 10px;
-}
-
-.meta-label {
-    opacity: 0.6;
+    padding: 4px 12px;
+    border-radius: 999px;
     font-size: 12px;
+
+    width: fit-content;   /* KEY */
+    white-space: nowrap;
 }
 
-.badge {
-    padding: 4px 8px;
-    border-radius: 10px;
-    font-size: 12px;
+/* ===== Status Colored KPI Bars ===== */
+.card.at-risk .list-progress-fill { background:#e74c3c; }
+.card.lagging .list-progress-fill { background:#f39c12; }
+.card.in-progress .list-progress-fill { background:#3498db; }
+.card.achieved .list-progress-fill { background:#2ecc71; }
+.card.not-started .list-progress-fill { background:#7f8c8d; }
+
+.list-progress-fill {
+    transition: width .25s ease;
 }
-
-.badge.overdue { background: #a33; }
-.badge.ontrack { background: #3a6; }
-
-/* ===== Details ===== */
-.details {
-    margin-top: 10px;
-    font-size: 13px;
-    opacity: 0.8;
-}
-
-.status-header.at-risk .arrow { border-left-color:#e74c3c; }
-.status-header.lagging .arrow { border-left-color:#f39c12; }
-.status-header.in-progress .arrow { border-left-color:#3498db; }
-.status-header.achieved .arrow { border-left-color:#2ecc71; }
-.status-header.not-started .arrow { border-left-color:#7f8c8d; }

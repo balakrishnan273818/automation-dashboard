@@ -8,7 +8,10 @@
 
 <h1>Automation Coverage</h1>
 
-<!-- ================= STATUS GROUPED GRID ================= -->
+<div class="view-toggle">
+    <button id="gridBtn" class="active">⬛⬛</button>
+    <button id="listBtn">☰</button>
+</div>
 
 <div id="projectContainer">
 
@@ -20,34 +23,32 @@
 {% for status, items in groups.items() %}
 <div class="status-row" data-status="{{ status }}">
 
-    <!-- Status Header -->
-<!--    <div class="status-header {{ status|lower|replace(' ', '-') }}"-->
-<!--         onclick="toggleStatus('{{ status }}')">-->
-<!--        {{ status }} ({{ items|length }} projects)-->
-<!--    </div>-->
-
     <div class="status-header {{ status|lower|replace(' ', '-') }}"
-     onclick="toggleStatus('{{ status }}')">
-
-    <span class="arrow"></span>
-    {{ status }} ({{ items|length }} projects)
-
+         onclick="toggleStatus('{{ status }}')">
+        <span class="arrow"></span>
+        {{ status }} ({{ items|length }} projects)
     </div>
 
-    <!-- Status Content -->
     <div class="status-content">
-        <div class="grid">
+
+        <!-- LIST HEADER (only visible in list view) -->
+        <div class="list-header">
+            <div>#</div>
+            <div>Project</div>
+            <div>Status</div>
+            <div>Automation %</div>
+        </div>
+
+        <div class="card-container">
 
         {% for p in items %}
-        <div class="card"
-             data-percentage="{{ p.percentage }}"
-             data-priority="{{ p.status_priority }}">
-
+        <div class="card {{ p.status|lower|replace(' ', '-') }}">
             <div class="serial">{{ p.rank }}</div>
 
             <div class="card-content">
+
                 <div class="card-header">
-                    <h3>{{ p.name }}</h3>
+                    <div class="project-title">{{ p.name }}</div>
                     <span class="status {{ p.status|lower|replace(' ', '-') }}">
                         {{ p.status }}
                     </span>
@@ -55,7 +56,11 @@
 
                 <div class="metric">
                     <div class="metric-value">{{ p.percentage }}%</div>
-                    <div class="metric-label">Automation Coverage</div>
+
+                    <div class="list-progress">
+                        <div class="list-progress-fill"
+                             style="width: {{ p.percentage }}%"></div>
+                    </div>
                 </div>
 
                 <div class="donut {{ p.status|lower|replace(' ', '-') }}"
@@ -63,66 +68,41 @@
                     <span>{{ p.percentage }}%</span>
                 </div>
 
-                <div class="grid-meta">
-                    <div class="meta-item">
-                        <span class="meta-label">Milestone</span>
-                        <span class="meta-value">{{ p.milestone }}</span>
-                    </div>
-
-                    <div class="meta-item">
-                        <span class="meta-label">Closure</span>
-                        <span class="meta-value {{ p.closure_status }}">
-                            {{ p.closure_date }}
-                        </span>
-                    </div>
-
-                    <div class="meta-item">
-                        <span class="meta-label">Timeline</span>
-                        <span class="badge {{ p.closure_status }}">
-                            {% if p.days_remaining < 0 %}
-                                {{ -p.days_remaining }} days overdue
-                            {% elif p.days_remaining == 0 %}
-                                Due today
-                            {% else %}
-                                {{ p.days_remaining }} days left
-                            {% endif %}
-                        </span>
-                    </div>
-                </div>
-
-                <div class="details">
-                    Total: <b>{{ p.total }}</b> |
-                    Automated: <b>{{ p.automated }}</b>
-                </div>
             </div>
         </div>
         {% endfor %}
 
         </div>
     </div>
-
 </div>
 {% endfor %}
 
 </div>
 
-<!-- ================= JS ================= -->
-
 <script>
 function toggleStatus(status) {
-    const row = document.querySelector(
-        '.status-row[data-status="' + status + '"]'
-    );
-
-    if (row) {
-        row.classList.toggle("active");
-    }
+    const row = document.querySelector('.status-row[data-status="' + status + '"]');
+    if (row) row.classList.toggle("active");
 }
 
-// Default expanded status
 document.addEventListener("DOMContentLoaded", () => {
     toggleStatus("At Risk");
 });
+
+const gridBtn = document.getElementById("gridBtn");
+const listBtn = document.getElementById("listBtn");
+
+gridBtn.onclick = () => {
+    document.body.classList.remove("list-view");
+    gridBtn.classList.add("active");
+    listBtn.classList.remove("active");
+};
+
+listBtn.onclick = () => {
+    document.body.classList.add("list-view");
+    listBtn.classList.add("active");
+    gridBtn.classList.remove("active");
+};
 </script>
 
 </body>
