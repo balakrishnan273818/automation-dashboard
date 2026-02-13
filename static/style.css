@@ -1,0 +1,195 @@
+/* ===== Base ===== */
+body {
+    font-family: Arial, sans-serif;
+    background: #0f1117;
+    color: #eaeaea;
+    padding: 20px;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+/* ===== Status Rows ===== */
+.status-row {
+    margin-bottom: 14px;
+}
+
+.status-header {
+    padding: 12px 16px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 6px;
+    background: #1e222c;
+    user-select: none;
+}
+/* ===== Accordion Arrow ===== */
+.status-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Arrow icon */
+.status-header .arrow {
+    width: 0;
+    height: 0;
+    border-left: 6px solid #ccc;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    transition: transform 0.25s ease;
+}
+
+/* Rotate arrow when row is expanded */
+.status-row.active .status-header .arrow {
+    transform: rotate(90deg);
+}
+
+/* Status colors */
+.status-header.at-risk { background: #3a1f1f; }
+.status-header.lagging { background: #402000; }
+.status-header.in-progress { background: #1f2f40; }
+.status-header.achieved { background: #1f4025; }
+.status-header.not-started { background: #333; }
+
+/* ===== Accordion ===== */
+.status-content {
+    display: none;
+    margin-top: 12px;
+}
+
+.status-row.active .status-content {
+    display: block;
+}
+
+/* ===== Grid ===== */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+}
+
+/* ===== Cards ===== */
+.card {
+    background: #1b1f2a;
+    border-radius: 10px;
+    padding: 14px;
+    position: relative;
+}
+
+.serial {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    opacity: 0.4;
+    font-size: 12px;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.status {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+}
+
+/* Status badges */
+.status.at-risk { background: #a33; }
+.status.lagging { background: #c60; }
+.status.in-progress { background: #369; }
+.status.achieved { background: #3a6; }
+.status.not-started { background: #666; }
+
+/* ===== Metrics ===== */
+.metric {
+    margin: 12px 0;
+}
+
+.metric-value {
+    font-size: 26px;
+    font-weight: bold;
+}
+
+/* ===== Donut Progress ===== */
+.donut {
+    --size: 90px;
+    --thickness: 12px;
+    --ring-color: #4caf50; /* default fallback */
+
+    width: var(--size);
+    height: var(--size);
+    border-radius: 50%;
+    position: relative;
+
+    background: conic-gradient(
+        var(--ring-color) calc(var(--value) * 1%),
+        #2a2f3a 0
+    );
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 12px auto;
+}
+
+/* Inner cutout → makes it doughnut */
+.donut::before {
+    content: "";
+    position: absolute;
+    inset: var(--thickness);
+    background: #1b1f2a;
+    border-radius: 50%;
+}
+
+/* Text above ring */
+.donut span {
+    position: relative;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+/* ===== Status-based colors ===== */
+.donut.at-risk { --ring-color: #e74c3c; }
+.donut.lagging { --ring-color: #f39c12; }
+.donut.in-progress { --ring-color: #3498db; }
+.donut.achieved { --ring-color: #2ecc71; }
+.donut.not-started { --ring-color: #7f8c8d; }
+
+/* ===== Meta ===== */
+.grid-meta {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.meta-label {
+    opacity: 0.6;
+    font-size: 12px;
+}
+
+.badge {
+    padding: 4px 8px;
+    border-radius: 10px;
+    font-size: 12px;
+}
+
+.badge.overdue { background: #a33; }
+.badge.ontrack { background: #3a6; }
+
+/* ===== Details ===== */
+.details {
+    margin-top: 10px;
+    font-size: 13px;
+    opacity: 0.8;
+}
+
+.status-header.at-risk .arrow { border-left-color:#e74c3c; }
+.status-header.lagging .arrow { border-left-color:#f39c12; }
+.status-header.in-progress .arrow { border-left-color:#3498db; }
+.status-header.achieved .arrow { border-left-color:#2ecc71; }
+.status-header.not-started .arrow { border-left-color:#7f8c8d; }

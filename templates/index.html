@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Automation Coverage Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<h1>Automation Coverage</h1>
+
+<!-- ================= STATUS GROUPED GRID ================= -->
+
+<div id="projectContainer">
+
+{% set groups = {} %}
+{% for p in projects %}
+    {% set _ = groups.setdefault(p.status, []).append(p) %}
+{% endfor %}
+
+{% for status, items in groups.items() %}
+<div class="status-row" data-status="{{ status }}">
+
+    <!-- Status Header -->
+<!--    <div class="status-header {{ status|lower|replace(' ', '-') }}"-->
+<!--         onclick="toggleStatus('{{ status }}')">-->
+<!--        {{ status }} ({{ items|length }} projects)-->
+<!--    </div>-->
+
+    <div class="status-header {{ status|lower|replace(' ', '-') }}"
+     onclick="toggleStatus('{{ status }}')">
+
+    <span class="arrow"></span>
+    {{ status }} ({{ items|length }} projects)
+
+    </div>
+
+    <!-- Status Content -->
+    <div class="status-content">
+        <div class="grid">
+
+        {% for p in items %}
+        <div class="card"
+             data-percentage="{{ p.percentage }}"
+             data-priority="{{ p.status_priority }}">
+
+            <div class="serial">{{ p.rank }}</div>
+
+            <div class="card-content">
+                <div class="card-header">
+                    <h3>{{ p.name }}</h3>
+                    <span class="status {{ p.status|lower|replace(' ', '-') }}">
+                        {{ p.status }}
+                    </span>
+                </div>
+
+                <div class="metric">
+                    <div class="metric-value">{{ p.percentage }}%</div>
+                    <div class="metric-label">Automation Coverage</div>
+                </div>
+
+                <div class="donut {{ p.status|lower|replace(' ', '-') }}"
+                     style="--value: {{ p.percentage }};">
+                    <span>{{ p.percentage }}%</span>
+                </div>
+
+                <div class="grid-meta">
+                    <div class="meta-item">
+                        <span class="meta-label">Milestone</span>
+                        <span class="meta-value">{{ p.milestone }}</span>
+                    </div>
+
+                    <div class="meta-item">
+                        <span class="meta-label">Closure</span>
+                        <span class="meta-value {{ p.closure_status }}">
+                            {{ p.closure_date }}
+                        </span>
+                    </div>
+
+                    <div class="meta-item">
+                        <span class="meta-label">Timeline</span>
+                        <span class="badge {{ p.closure_status }}">
+                            {% if p.days_remaining < 0 %}
+                                {{ -p.days_remaining }} days overdue
+                            {% elif p.days_remaining == 0 %}
+                                Due today
+                            {% else %}
+                                {{ p.days_remaining }} days left
+                            {% endif %}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="details">
+                    Total: <b>{{ p.total }}</b> |
+                    Automated: <b>{{ p.automated }}</b>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+        </div>
+    </div>
+
+</div>
+{% endfor %}
+
+</div>
+
+<!-- ================= JS ================= -->
+
+<script>
+function toggleStatus(status) {
+    const row = document.querySelector(
+        '.status-row[data-status="' + status + '"]'
+    );
+
+    if (row) {
+        row.classList.toggle("active");
+    }
+}
+
+// Default expanded status
+document.addEventListener("DOMContentLoaded", () => {
+    toggleStatus("At Risk");
+});
+</script>
+
+</body>
+</html>
