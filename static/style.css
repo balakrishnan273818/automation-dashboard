@@ -1,195 +1,432 @@
+/* ===== THEME VARIABLES ===== */
+
+/* DARK = current design (default) */
+:root {
+    --bg-main:#0f1117;
+    --bg-card:#1b1f2a;
+    --bg-soft:#1e222c;
+    --bg-border:#2a2f3a;
+
+    --text-main:#eaeaea;
+    --text-muted:#aaa;
+
+    --accent:#4caf50;
+}
+
+/* LIGHT THEME */
+body[data-theme="light"] {
+    --bg-main:#f5f7fb;
+    --bg-card:#ffffff;
+    --bg-soft:#e9edf5;
+    --bg-border:#d7dde6;
+
+    --text-main:#222;
+    --text-muted:#666;
+
+    --accent:#2e7d32;
+}
+
+:root {
+    --list-layout:
+        60px        /* # */
+        2fr         /* Project */
+        140px       /* Status */
+        120px       /* Total */
+        140px       /* Automated */
+        220px;      /* Automation % */
+}
+
 /* ===== Base ===== */
 body {
     font-family: Arial, sans-serif;
-    background: #0f1117;
-    color: #eaeaea;
-    padding: 20px;
+    background:var(--bg-main);
+    color:var(--text-main);
+    padding:20px;
 }
 
-h1 {
-    margin-bottom: 20px;
+body.list-view .status {
+    justify-self: start;
+    text-align: left;
 }
+
+h1 { margin-bottom:20px; }
+
+/* ===== View Toggle ===== */
+.view-toggle {
+    display:flex;
+    justify-content:flex-end;
+    gap:6px;
+    margin-bottom:14px;
+}
+
+.view-toggle button {
+    border:none;
+    background:var(--bg-soft);
+    color:white;
+    padding:6px 10px;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+.view-toggle button.active { background:#4caf50; }
 
 /* ===== Status Rows ===== */
-.status-row {
-    margin-bottom: 14px;
-}
+.status-row { margin-bottom:14px; }
 
 .status-header {
-    padding: 12px 16px;
-    font-weight: bold;
-    cursor: pointer;
-    border-radius: 6px;
-    background: #1e222c;
-    user-select: none;
-}
-/* ===== Accordion Arrow ===== */
-.status-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:12px 16px;
+    font-weight:bold;
+    cursor:pointer;
+    border-radius:6px;
+    background:var(--bg-soft);
 }
 
-/* Arrow icon */
 .status-header .arrow {
-    width: 0;
-    height: 0;
-    border-left: 6px solid #ccc;
-    border-top: 5px solid transparent;
-    border-bottom: 5px solid transparent;
-    transition: transform 0.25s ease;
+    width:0;height:0;
+    border-left:6px solid #ccc;
+    border-top:5px solid transparent;
+    border-bottom:5px solid transparent;
+    transition:transform .25s ease;
 }
 
-/* Rotate arrow when row is expanded */
-.status-row.active .status-header .arrow {
-    transform: rotate(90deg);
-}
-
-/* Status colors */
-.status-header.at-risk { background: #3a1f1f; }
-.status-header.lagging { background: #402000; }
-.status-header.in-progress { background: #1f2f40; }
-.status-header.achieved { background: #1f4025; }
-.status-header.not-started { background: #333; }
+.status-row.active .arrow { transform:rotate(90deg); }
 
 /* ===== Accordion ===== */
-.status-content {
-    display: none;
-    margin-top: 12px;
+.status-content { display:none; margin-top:12px; }
+.status-row.active .status-content { display:block; }
+
+/* ===== GRID VIEW ===== */
+.card-container {
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+    gap:16px;
 }
 
-.status-row.active .status-content {
-    display: block;
-}
-
-/* ===== Grid ===== */
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 16px;
-}
-
-/* ===== Cards ===== */
 .card {
-    background: #1b1f2a;
-    border-radius: 10px;
-    padding: 14px;
-    position: relative;
+    background:var(--bg-card);
+    border-radius:10px;
+    padding:14px;
+    position:relative;
+    transition:.18s ease;
 }
 
 .serial {
-    position: absolute;
-    top: 8px;
-    right: 10px;
-    opacity: 0.4;
-    font-size: 12px;
+    position:absolute;
+    top:8px;
+    right:10px;
+    opacity:.4;
+    font-size:12px;
 }
 
 .card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
 }
 
 .status {
-    padding: 4px 8px;
-    border-radius: 12px;
-    font-size: 12px;
+    padding:4px 8px;
+    border-radius:12px;
+    font-size:12px;
 }
 
-/* Status badges */
-.status.at-risk { background: #a33; }
-.status.lagging { background: #c60; }
-.status.in-progress { background: #369; }
-.status.achieved { background: #3a6; }
-.status.not-started { background: #666; }
+/*.status.at-risk{background:#a33;}
+.status.lagging{background:#c60;}
+.status.in-progress{background:#369;}
+.status.achieved{background:#3a6;}
+.status.not-started{background:#666;}*/
 
-/* ===== Metrics ===== */
-.metric {
-    margin: 12px 0;
+/* ===== Percentage Based Status Colors ===== */
+.status.at-risk,
+.summary-item.at-risk{
+    background:#c94a4a;   /* softer red */
+    color:#fff;
 }
+
+.status.in-progress,
+.summary-item.in-progress{
+    background:#4a7fb8;   /* muted blue */
+    color:#fff;
+}
+
+.status.achieved,
+.summary-item.achieved{
+    background:#4aa96c;   /* softer green */
+    color:#fff;
+}
+
+.metric { margin:12px 0; }
 
 .metric-value {
-    font-size: 26px;
-    font-weight: bold;
+    font-size:26px;
+    font-weight:bold;
 }
 
-/* ===== Donut Progress ===== */
+/* ===== DONUT ===== */
 .donut {
-    --size: 90px;
-    --thickness: 12px;
-    --ring-color: #4caf50; /* default fallback */
+    --size:90px;
+    --thickness:12px;
+    --ring-color:#4caf50;
+    --donut-bg: var(--bg-border);   /* theme aware */
 
-    width: var(--size);
-    height: var(--size);
-    border-radius: 50%;
-    position: relative;
+    width:var(--size);
+    height:var(--size);
+    border-radius:50%;
+    position:relative;
 
-    background: conic-gradient(
-        var(--ring-color) calc(var(--value) * 1%),
-        #2a2f3a 0
+    background:conic-gradient(
+        var(--ring-color) calc(var(--value)*1%),
+        var(--donut-bg) 0
     );
 
-    display: flex;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:12px auto;
+}
+
+.donut::before {
+    content:"";
+    position:absolute;
+    inset:var(--thickness);
+    background:var(--bg-card);
+    border-radius:50%;
+}
+
+.donut span {
+    position:relative;
+    font-weight:bold;
+    font-size:14px;
+}
+
+/* ===== LIST MODE ===== */
+
+.list-header { display:none; }
+
+body.list-view .list-header {
+    display:grid;
+    grid-template-columns:var(--list-layout);
+    position:sticky;
+    top:0;
+    background:var(--bg-main);
+    color:var(--text-main);
+    padding:10px 16px;
+    margin-bottom:8px;
+    font-size:16px;
+    font-weight:700;
+    border-bottom:1px solid var(--bg-border);
+}
+
+/* Improve header contrast in light theme */
+body[data-theme="light"].list-view .list-header {
+    box-shadow: 0 1px 0 var(--bg-border);
+}
+
+body.list-view .card-container { display:block; }
+
+body.list-view .card {
+    display:grid;
+    grid-template-columns:var(--list-layout);
+    align-items:center;
+    gap:14px;
+    padding:12px 16px;
+    margin-bottom:8px;
+}
+
+body.list-view .serial { position:static; }
+
+body.list-view .card-content,
+body.list-view .card-header { display:contents; }
+
+body.list-view .donut { display:none; }
+
+body.list-view .metric {
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin:0;
+}
+
+body.list-view .metric-value {
+    font-size:14px;
+    font-weight:600;
+    min-width:38px;
+}
+
+/* KPI BAR */
+.list-progress { display:none; }
+
+body.list-view .list-progress {
+    display:block;
+    flex:1;
+    height:6px;
+    background:var(--bg-border);
+    border-radius:6px;
+    overflow:hidden;
+}
+
+.list-progress-fill {
+    height:100%;
+    background:#4caf50;
+}
+
+/* ===== Project Name Limit ===== */
+.project-title {
+    max-width: 70ch;       /* 70 characters approx */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.status {
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    margin: 12px auto;
+
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+
+    width: fit-content;   /* KEY */
+    white-space: nowrap;
 }
 
-/* Inner cutout → makes it doughnut */
-.donut::before {
-    content: "";
-    position: absolute;
-    inset: var(--thickness);
-    background: #1b1f2a;
-    border-radius: 50%;
+/* ===== Status Colored KPI Bars ===== */
+.card.at-risk .list-progress-fill { background:#e74c3c; }
+.card.lagging .list-progress-fill { background:#f39c12; }
+.card.in-progress .list-progress-fill { background:#3498db; }
+.card.achieved .list-progress-fill { background:#2ecc71; }
+.card.not-started .list-progress-fill { background:#7f8c8d; }
+
+.list-progress-fill {
+    transition: width .25s ease;
 }
 
-/* Text above ring */
-.donut span {
+body.list-view .total,
+body.list-view .automated {
+    font-weight:600;
+    opacity:.85;
+}
+
+/* ===== SUMMARY BAR ===== */
+.summary-bar {
+    display:flex;
+    gap:18px;
+    margin-bottom:14px;
+    font-size:14px;
+    font-weight:600;
+}
+
+.summary-item {
+    padding:6px 12px;
+    border-radius:999px;
+    background:var(--bg-soft);
+    color:var(--text-main);
+    font-weight:600;
+}
+
+/* ===== SUMMARY BADGES USE SAME COLOR SYSTEM ===== */
+
+.summary-item.at-risk{
+    background:#c94a4a;
+    color:#fff;
+}
+
+.summary-item.in-progress{
+    background:#4a7fb8;
+    color:#fff;
+}
+
+.summary-item.achieved{
+    background:#4aa96c;
+    color:#fff;
+}
+
+.sort-controls {
+    margin-bottom:12px;
+    font-size:14px;
+}
+.sortable:hover {
+    opacity:.7;
+}
+.sortable {
+    cursor: pointer;
+    user-select: none;
     position: relative;
-    font-weight: bold;
-    font-size: 14px;
 }
 
-/* ===== Status-based colors ===== */
-.donut.at-risk { --ring-color: #e74c3c; }
-.donut.lagging { --ring-color: #f39c12; }
-.donut.in-progress { --ring-color: #3498db; }
-.donut.achieved { --ring-color: #2ecc71; }
-.donut.not-started { --ring-color: #7f8c8d; }
-
-/* ===== Meta ===== */
-.grid-meta {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
-    margin-top: 10px;
+/* Arrow positioned cleanly on right */
+.sort-arrow {
+    margin-left: 6px;
+    font-size: 11px;
+    opacity: .8;
+    color:#aaa;
 }
 
-.meta-label {
-    opacity: 0.6;
-    font-size: 12px;
+.sortable.active { color:#4caf50; }
+
+.theme-toggle {
+    display:flex;
+    justify-content:flex-end;
+    margin-bottom:10px;
 }
 
-.badge {
-    padding: 4px 8px;
-    border-radius: 10px;
-    font-size: 12px;
+.theme-toggle button {
+    border:none;
+    padding:6px 10px;
+    border-radius:6px;
+    background:var(--bg-soft);
+    color:var(--text-main);
+    cursor:pointer;
 }
 
-.badge.overdue { background: #a33; }
-.badge.ontrack { background: #3a6; }
+/* ===== FIX STATUS BADGE VISIBILITY (LIGHT/DARK SAFE) ===== */
 
-/* ===== Details ===== */
-.details {
-    margin-top: 10px;
-    font-size: 13px;
-    opacity: 0.8;
+.status.at-risk,
+.status.lagging,
+.status.in-progress,
+.status.achieved,
+.status.not-started {
+    color:#ffffff;   /* ensures text visible in light theme */
+    font-weight:600;
 }
 
-.status-header.at-risk .arrow { border-left-color:#e74c3c; }
-.status-header.lagging .arrow { border-left-color:#f39c12; }
-.status-header.in-progress .arrow { border-left-color:#3498db; }
-.status-header.achieved .arrow { border-left-color:#2ecc71; }
-.status-header.not-started .arrow { border-left-color:#7f8c8d; }
+.status {
+    color:#fff;   /* prevents light-theme washout */
+}
+
+/* ===== DONUT TARGET MARKER ===== */
+.donut::after {
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:50%;
+
+    background:conic-gradient(
+        transparent calc(60% - 0.5%),
+        #ffffff calc(60% - 0.5%),
+        #ffffff calc(60% + 0.5%),
+        transparent calc(60% + 0.5%)
+    );
+
+    mask: radial-gradient(
+        farthest-side,
+        transparent calc(100% - var(--thickness) - 1px),
+        #000 calc(100% - var(--thickness)),
+        #000 calc(100% - var(--thickness) + 1px),
+        transparent calc(100% - var(--thickness) + 2px)
+    );
+    pointer-events:none;
+}
+
+body[data-theme="light"] .donut::after {
+    background:conic-gradient(
+        transparent calc(60% - 0.5%),
+        #222 calc(60% - 0.5%),
+        #222 calc(60% + 0.5%),
+        transparent calc(60% + 0.5%)
+    );
+}

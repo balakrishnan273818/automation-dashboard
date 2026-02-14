@@ -1,0 +1,209 @@
+{
+  "projects": [
+    {
+      "avatarId": 12345,
+      "name": "DUMB-AI Volunteer",
+      "id": "11003",
+      "key": "AIFRO8",
+      "total_tcs": 411,
+      "automated_tcs": 121,
+      "ita_percent": 29.4
+    },
+    {
+      "avatarId": 12345,
+      "name": "[B-BPO-D1] BNNT Phase 2",
+      "id": "22316",
+      "key": "BNNT2",
+      "total_tcs": 650,
+      "automated_tcs": 207,
+      "ita_percent": 31.8
+    },
+    {
+      "avatarId": 12345,
+      "name": "TESTOPS 4.0",
+      "id": "23503",
+      "key": "TESTOPS3",
+      "total_tcs": 563,
+      "automated_tcs": 429,
+      "ita_percent": 76.2
+    },
+    {
+      "avatarId": 12345,
+      "name": "EDGE-BI",
+      "id": "22320",
+      "key": "EBI",
+      "total_tcs": 398,
+      "automated_tcs": 298,
+      "ita_percent": 74.9
+    },
+    {
+      "avatarId": 12345,
+      "name": "프로젝트 네오-비전 AI | 테스트·데이터 #혁신 (KOR) v1.0! ★알파_출시+20!!",
+      "id": "20417",
+      "key": "IGF",
+      "total_tcs": 627,
+      "automated_tcs": 36,
+      "ita_percent": 5.7
+    },
+    {
+      "avatarId": 12345,
+      "name": "Assistant tool #혁신",
+      "id": "21315",
+      "key": "ATCD",
+      "total_tcs": 297,
+      "automated_tcs": 279,
+      "ita_percent": 93.9
+    },
+    {
+      "avatarId": 12345,
+      "name": "Vision system development",
+      "id": "22424",
+      "key": "PPLMVV",
+      "total_tcs": 324,
+      "automated_tcs": 112,
+      "ita_percent": 34.6
+    },
+    {
+      "avatarId": 12345,
+      "name": "PLUTO",
+      "id": "22222",
+      "key": "PLUTO",
+      "total_tcs": 157,
+      "automated_tcs": 150,
+      "ita_percent": 95.5
+    },
+    {
+      "avatarId": 12345,
+      "name": "Development of AI Model for robotics",
+      "id": "23456",
+      "key": "B8BI",
+      "total_tcs": 277,
+      "automated_tcs": 202,
+      "ita_percent": 72.9
+    },
+
+    {
+      "avatarId": 12345,
+      "name": "DUMB-AI Volunteer Phase 2",
+      "id": "31001",
+      "key": "AIFRO9",
+      "total_tcs": 430,
+      "automated_tcs": 90,
+      "ita_percent": 20.9
+    },
+    {
+      "avatarId": 12345,
+      "name": "[B-BPO-D1] BNNT Phase 3",
+      "id": "31002",
+      "key": "BNNT3",
+      "total_tcs": 540,
+      "automated_tcs": 260,
+      "ita_percent": 48.1
+    },
+    {
+      "avatarId": 12345,
+      "name": "TESTOPS 4.1",
+      "id": "31003",
+      "key": "TESTOPS4",
+      "total_tcs": 600,
+      "automated_tcs": 350,
+      "ita_percent": 58.3
+    },
+    {
+      "avatarId": 12345,
+      "name": "EDGE-BI Expansion",
+      "id": "31004",
+      "key": "EBI2",
+      "total_tcs": 420,
+      "automated_tcs": 180,
+      "ita_percent": 42.8
+    },
+    {
+      "avatarId": 12345,
+      "name": "Neo Vision AI Beta",
+      "id": "31005",
+      "key": "IGF2",
+      "total_tcs": 510,
+      "automated_tcs": 70,
+      "ita_percent": 13.7
+    },
+    {
+      "avatarId": 12345,
+      "name": "Assistant Tool Advanced",
+      "id": "31006",
+      "key": "ATCD2",
+      "total_tcs": 350,
+      "automated_tcs": 210,
+      "ita_percent": 60.0
+    },
+    {
+      "avatarId": 12345,
+      "name": "Vision System Upgrade",
+      "id": "31007",
+      "key": "PPLMVV2",
+      "total_tcs": 390,
+      "automated_tcs": 150,
+      "ita_percent": 38.4
+    },
+    {
+      "avatarId": 12345,
+      "name": "PLUTO NextGen",
+      "id": "31008",
+      "key": "PLUTO2",
+      "total_tcs": 200,
+      "automated_tcs": 170,
+      "ita_percent": 85.0
+    },
+    {
+      "avatarId": 12345,
+      "name": "Robotics AI Model v2",
+      "id": "31009",
+      "key": "B8BI2",
+      "total_tcs": 310,
+      "automated_tcs": 140,
+      "ita_percent": 45.1
+    },
+    {
+      "avatarId": 12345,
+      "name": "TestOps Analytics",
+      "id": "31010",
+      "key": "TOPAN",
+      "total_tcs": 450,
+      "automated_tcs": 320,
+      "ita_percent": 71.1
+    },
+    {
+      "avatarId": 12345,
+      "name": "AI Edge Platform",
+      "id": "31011",
+      "key": "AIEP",
+      "total_tcs": 370,
+      "automated_tcs": 210,
+      "ita_percent": 56.7
+    },
+    {
+      "avatarId": 12345,
+      "name": "Automation Accelerator",
+      "id": "31012",
+      "key": "AUTOX",
+      "total_tcs": 280,
+      "automated_tcs": 90,
+      "ita_percent": 32.1
+    },
+    {
+      "avatarId": 12345,
+      "name": "Smart Vision QA",
+      "id": "31013",
+      "key": "SVQA",
+      "total_tcs": 340,
+      "automated_tcs": 240,
+      "ita_percent": 70.6
+    }
+    ],
+    "summary": {
+      "projects": 22,
+      "total_tcs": 8894,
+      "automated_tcs": 4314,
+      "automation_percent": 48.5
+    }
+}
