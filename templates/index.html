@@ -7,6 +7,11 @@
 <body>
 
 <h1>Automation Coverage</h1>
+
+<div class="theme-toggle">
+    <button id="themeBtn">🌙 Dark</button>
+</div>
+
 <div class="sort-controls">
     Sort by:
     <select id="sortField">
@@ -30,7 +35,20 @@
     {% endfor %}
 
     {% for k,v in counts.items() %}
-        <span class="summary-item {{ k|lower|replace(' ','-') }}">
+        <!--<span class="summary-item {{ k|lower|replace(' ','-') }}">
+            {{ k }} {{ v }}
+        </span>-->
+        <span class="summary-item
+        {% set avg = (projects | selectattr('status','equalto',k) | map(attribute='percentage') | list) %}
+        {% set pct = (avg | sum / (avg|length)) if avg|length > 0 else 0 %}
+        {% if pct <= 44 %}
+            at-risk
+        {% elif pct <= 59 %}
+            in-progress
+        {% else %}
+            achieved
+        {% endif %}
+        ">
             {{ k }} {{ v }}
         </span>
     {% endfor %}
@@ -40,6 +58,7 @@
     <button id="gridBtn" class="active">⬛⬛</button>
     <button id="listBtn">☰</button>
 </div>
+
 
 <div id="projectContainer">
 
@@ -87,7 +106,18 @@
 
                 <div class="card-header">
                     <div class="project-title">{{ p.name }}</div>
-                    <span class="status {{ p.status|lower|replace(' ', '-') }}">
+                    <!--<span class="status {{ p.status|lower|replace(' ', '-') }}">
+                        {{ p.status }}
+                    </span>-->
+                    <span class="status
+                    {% if p.percentage|int <= 44 %}
+                        at-risk
+                    {% elif p.percentage|int <= 59 %}
+                        in-progress
+                    {% else %}
+                        achieved
+                    {% endif %}
+                    ">
                         {{ p.status }}
                     </span>
                 </div>
@@ -96,7 +126,7 @@
                 <div class="automated">{{ p.automated }}</div>
 
                 <div class="metric">
-                    <div class="metric-value">{{ p.percentage }}%</div>
+<!--                    <div class="metric-value">{{ p.percentage }}%</div>-->
 
                     <div class="list-progress">
                         <div class="list-progress-fill"
@@ -104,8 +134,22 @@
                     </div>
                 </div>
 
+                <!--<div class="donut {{ p.status|lower|replace(' ', '-') }}"
+                     style="&#45;&#45;value: {{ p.percentage }};">
+                    <span>{{ p.percentage }}%</span>
+                </div>-->
                 <div class="donut {{ p.status|lower|replace(' ', '-') }}"
-                     style="--value: {{ p.percentage }};">
+                        style="
+                            --value: {{ p.percentage }};
+                            --ring-color:
+                            {% if p.percentage|int <= 44 %}
+                                #e74c3c
+                            {% elif p.percentage|int <= 59 %}
+                                #3498db
+                            {% else %}
+                                #2ecc71
+                            {% endif %};
+                        ">
                     <span>{{ p.percentage }}%</span>
                 </div>
 
@@ -253,6 +297,30 @@ function sortGroups(field, order){
         cards.forEach(c => container.appendChild(c));
     });
 }
+</script>
+
+<script>
+const themeBtn = document.getElementById("themeBtn");
+
+function applyTheme(theme){
+    document.body.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+
+    themeBtn.textContent = theme === "dark" ? "🌙 Dark" : "☀️ Light";
+}
+
+themeBtn.onclick = () => {
+    const current = document.body.getAttribute("data-theme") || "dark";
+    applyTheme(current === "dark" ? "light" : "dark");
+};
+
+// Load saved theme
+document.addEventListener("DOMContentLoaded", () => {
+    const saved = localStorage.getItem("theme") || "dark";
+    applyTheme(saved);
+});
+
+const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
 </script>
 
 </body>
