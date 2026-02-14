@@ -1,0 +1,83 @@
+[
+  {
+    "avatarId": 12345,
+    "name": "DUMB-AI Volunteer",
+    "id": "11003",
+    "key": "AIFRO8",
+    "total_tcs": 411,
+    "automated_tcs": 121,
+    "ita_percent": 29.4
+  },
+  {
+    "avatarId": 12345,
+    "name": "[B-BPO-D1] BNNT Phase 2",
+    "id": "22316",
+    "key": "BNNT2",
+    "total_tcs": 650,
+    "automated_tcs": 207,
+    "ita_percent": 31.8
+  },
+  {
+    "avatarId": 12345,
+    "name": "TESTOPS 4.0",
+    "id": "23503",
+    "key": "TESTOPS3",
+    "total_tcs": 563,
+    "automated_tcs": 429,
+    "ita_percent": 76.2
+  },
+  {
+    "avatarId": 12345,
+    "name": "EDGE-BI",
+    "id": "22320",
+    "key": "EBI",
+    "total_tcs": 398,
+    "automated_tcs": 298,
+    "ita_percent": 74.9
+  },
+  {
+    "avatarId": 12345,
+    "name": "프로젝트 네오-비전 AI | 테스트·데이터 #혁신 (KOR) v1.0! ★알파_출시+20!!",
+    "id": "20417",
+    "key": "IGF",
+    "total_tcs": 627,
+    "automated_tcs": 36,
+    "ita_percent": 5.7
+  },
+  {
+    "avatarId": 12345,
+    "name": "Assistant tool #혁신",
+    "id": "21315",
+    "key": "ATCD",
+    "total_tcs": 297,
+    "automated_tcs": 279,
+    "ita_percent": 93.9
+  },
+  {
+    "avatarId": 12345,
+    "name": "Vision system development",
+    "id": "22424",
+    "key": "PPLMVV",
+    "total_tcs": 324,
+    "automated_tcs": 112,
+    "ita_percent": 34.6
+  },
+  {
+    "avatarId": 12345,
+    "name": "PLUTO",
+    "id": "22222",
+    "key": "PLUTO",
+    "total_tcs": 157,
+    "automated_tcs": 150,
+    "ita_percent": 95.5
+  },
+  {
+    "avatarId": 12345,
+    "name": "Development of AI Model for robotics",
+    "id": "23456",
+    "key": "B8BI",
+    "total_tcs": 277,
+    "automated_tcs": 202,
+    "ita_percent": 72.9
+  }
+]

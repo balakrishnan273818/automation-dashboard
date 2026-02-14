@@ -7,6 +7,18 @@
 <body>
 
 <h1>Automation Coverage</h1>
+<div class="summary-bar">
+    {% set counts = {} %}
+    {% for p in projects %}
+        {% set _ = counts.update({p.status: counts.get(p.status,0)+1}) %}
+    {% endfor %}
+
+    {% for k,v in counts.items() %}
+        <span class="summary-item {{ k|lower|replace(' ','-') }}">
+            {{ k }} {{ v }}
+        </span>
+    {% endfor %}
+</div>
 
 <div class="view-toggle">
     <button id="gridBtn" class="active">⬛⬛</button>
@@ -36,6 +48,8 @@
             <div>#</div>
             <div>Project</div>
             <div>Status</div>
+            <div>Total TCs</div>
+            <div>Automated TCs</div>
             <div>Automation %</div>
         </div>
 
@@ -53,6 +67,9 @@
                         {{ p.status }}
                     </span>
                 </div>
+
+                <div class="total">{{ p.total }}</div>
+                <div class="automated">{{ p.automated }}</div>
 
                 <div class="metric">
                     <div class="metric-value">{{ p.percentage }}%</div>

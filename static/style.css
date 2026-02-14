@@ -1,10 +1,11 @@
 :root {
---list-layout:
-    60px
-    1.5fr     /* Project tighter */
-    140px     /* Status fixed width */
-    200px;    /* Automation column */
-    200px;    /* Automation column */
+    --list-layout:
+        60px        /* # */
+        2fr         /* Project */
+        140px       /* Status */
+        120px       /* Total */
+        140px       /* Automated */
+        220px;      /* Automation % */
 }
 
 /* ===== Base ===== */
@@ -165,8 +166,8 @@ body.list-view .list-header {
     background:#0f1117;
     padding:10px 16px;
     margin-bottom:8px;
-    font-size:12px;
-    font-weight:600;
+    font-size:16px;
+    font-weight:700;
     border-bottom:1px solid #2a2f3a;
 }
 
@@ -249,3 +250,29 @@ body.list-view .list-progress {
 .list-progress-fill {
     transition: width .25s ease;
 }
+
+body.list-view .total,
+body.list-view .automated {
+    font-weight:600;
+    opacity:.85;
+}
+
+/* ===== SUMMARY BAR ===== */
+.summary-bar {
+    display:flex;
+    gap:18px;
+    margin-bottom:14px;
+    font-size:14px;
+    font-weight:600;
+}
+
+.summary-item {
+    padding:6px 12px;
+    border-radius:999px;
+    background:#1e222c;
+}
+.summary-item.at-risk { background:#3a1f1f; }
+.summary-item.lagging { background:#402000; }
+.summary-item.in-progress { background:#1f2f40; }
+.summary-item.achieved { background:#1f4025; }
+.summary-item.not-started { background:#333; }

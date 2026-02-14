@@ -1,76 +1,104 @@
-from datetime import date
-TARGET = 60
+import json
+import random
+from pathlib import Path
 
-STATUS_PRIORITY = {
-    "Not Started": 1,
-    "At Risk": 2,
-    "Lagging": 3,
-    "In Progress": 4,
-    "Achieved": 5
-}
+JSON_FILE = Path("input.json")
 
-projects = []
 
-for i in range(1, 26):
-    total = 500 + (i * 40)
+# ==========================================================
+# STATUS ENGINE (Smart Rules)
+# ==========================================================
+def calculate_status(ita_percent: float, total_tcs: int):
 
-    # Coverage from 0% to 100%
-    coverage_factor = (i % 11) / 9   # 0.0 → 1.0
-    automated = int(total * coverage_factor)
-
-    project = {
-        "name": f"Project {i}",
-        "total": total,
-        "automated": automated,
-        
-        # 👇 NEW FIELDS
-        "milestone": f"Milestone {((i - 1) % 3) + 1}",
-        "closure_date": "Feb 28"
-    }
-    
-    # Dummy closure dates spread around today
-    closure_offset_days = (i % 10) - 5   # -5 to +4 days
-    closure_dt = date.today().replace(day=28)  # stable base date
-
-    project["closure_date"] = closure_dt.strftime("%b %d")
-    project["days_remaining"] = closure_offset_days
-    
-    if project["days_remaining"] < 0:
-        project["closure_status"] = "overdue"
-    elif project["days_remaining"] == 0:
-        project["closure_status"] = "due-today"
+    # Example intelligent logic
+    if ita_percent >= 90:
+        return "Achieved", 5
+    elif ita_percent >= 70:
+        return "In Progress", 4
+    elif ita_percent >= 40:
+        return "Lagging", 3
+    elif ita_percent > 0:
+        return "At Risk", 2
     else:
-        project["closure_status"] = "on-track"
+        return "Not Started", 1
 
-    # Automation percentage
-    project["percentage"] = round(
-        (project["automated"] / project["total"]) * 100, 1
-    )
 
-    percentage = project["percentage"]
+# ==========================================================
+# JSON LOADER + AUTO FIELD INJECTION
+# ==========================================================
+def load_projects():
 
-    if percentage == 0:
-        project["status"] = "Not Started"
+    with open(JSON_FILE, "r", encoding="utf-8") as f:
+        raw_projects = json.load(f)
 
-    elif percentage <= 15:
-        project["status"] = "At Risk"
+    updated = False
+    projects = []
 
-    elif percentage <= 45:
-        project["status"] = "Lagging"
+    for i, p in enumerate(raw_projects, start=1):
 
-    elif percentage <= 65:
-        project["status"] = "In Progress"
+        # --------------------------------------------------
+        # AUTO-GENERATE FIELDS IF MISSING
+        # --------------------------------------------------
+        total_tcs = p.get("total_tcs")
+        automated_tcs = p.get("automated_tcs")
+        ita_percent = p.get("ita_percent")
 
-    else:
-        project["status"] = "Achieved"
+        if total_tcs is None:
+            total_tcs = random.randint(150, 800)
+            p["total_tcs"] = total_tcs
+            updated = True
 
-    project["status_priority"] = STATUS_PRIORITY[project["status"]]
+        if automated_tcs is None:
+            automated_tcs = random.randint(0, total_tcs)
+            p["automated_tcs"] = automated_tcs
+            updated = True
 
-    projects.append(project)
+        # Safety clamp
+        automated_tcs = min(int(automated_tcs), int(total_tcs))
 
-# Default sort: Risk-first
-projects.sort(key=lambda p: p["status_priority"])
+        if ita_percent is None:
+            if total_tcs == 0:
+                ita_percent = 0.0
+            else:
+                ita_percent = round((automated_tcs / total_tcs) * 100, 1)
 
-# Assign rank after sorting
-for idx, p in enumerate(projects, start=1):
-    p["rank"] = idx
+            p["ita_percent"] = ita_percent
+            updated = True
+
+        ita_percent = float(ita_percent)
+
+        # --------------------------------------------------
+        # INTELLIGENT STATUS ENGINE
+        # --------------------------------------------------
+        status, priority = calculate_status(ita_percent, total_tcs)
+
+        # --------------------------------------------------
+        # DASHBOARD OBJECT
+        # --------------------------------------------------
+        projects.append({
+            "rank": i,
+            "name": p["name"],
+            "status": status,
+            "status_priority": priority,
+            "percentage": ita_percent,
+            "total": total_tcs,
+            "automated": automated_tcs,
+        })
+
+    # --------------------------------------------------
+    # WRITE BACK UPDATED JSON (AUTO-PERSIST NEW FIELDS)
+    # --------------------------------------------------
+    if updated:
+        with open(JSON_FILE, "w", encoding="utf-8") as f:
+            json.dump(raw_projects, f, indent=2, ensure_ascii=False)
+
+    # Sort risk-first
+    projects.sort(key=lambda x: x["status_priority"])
+
+    return projects
+
+
+# ==========================================================
+# EXPORT FOR app.py
+# ==========================================================
+projects = load_projects()
