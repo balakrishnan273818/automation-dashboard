@@ -276,3 +276,27 @@ body.list-view .automated {
 .summary-item.in-progress { background:#1f2f40; }
 .summary-item.achieved { background:#1f4025; }
 .summary-item.not-started { background:#333; }
+
+.sort-controls {
+    margin-bottom:12px;
+    font-size:14px;
+}
+.sortable:hover {
+    opacity:.7;
+}
+.sortable {
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+}
+
+/* Arrow positioned cleanly on right */
+.sort-arrow {
+    margin-left: 6px;
+    font-size: 11px;
+    opacity: .8;
+    color:#aaa;
+}
+
+
+.sortable.active { color:#4caf50; }

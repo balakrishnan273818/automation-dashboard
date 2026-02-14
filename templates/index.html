@@ -7,6 +7,22 @@
 <body>
 
 <h1>Automation Coverage</h1>
+<div class="sort-controls">
+    Sort by:
+    <select id="sortField">
+        <option value="rank">Default</option>
+        <option value="name">Project</option>
+        <option value="status">Status</option>
+        <option value="total">Total TCs</option>
+        <option value="automated">Automated TCs</option>
+        <option value="percentage">Automation %</option>
+    </select>
+
+    <select id="sortOrder">
+        <option value="asc">Asc</option>
+        <option value="desc">Desc</option>
+    </select>
+</div>
 <div class="summary-bar">
     {% set counts = {} %}
     {% for p in projects %}
@@ -45,18 +61,26 @@
 
         <!-- LIST HEADER (only visible in list view) -->
         <div class="list-header">
-            <div>#</div>
-            <div>Project</div>
-            <div>Status</div>
-            <div>Total TCs</div>
-            <div>Automated TCs</div>
-            <div>Automation %</div>
+            <div class="sortable" data-field="rank"># <span class="sort-arrow"></span></div>
+            <div class="sortable" data-field="name">Project <span class="sort-arrow"></span></div>
+            <div class="sortable" data-field="status">Status <span class="sort-arrow"></span></div>
+            <div class="sortable" data-field="total">Total TCs <span class="sort-arrow"></span></div>
+            <div class="sortable" data-field="automated">Automated TCs <span class="sort-arrow"></span></div>
+            <div class="sortable" data-field="percentage">Automation % <span class="sort-arrow"></span></div>
         </div>
 
         <div class="card-container">
 
         {% for p in items %}
-        <div class="card {{ p.status|lower|replace(' ', '-') }}">
+        <div class="card {{ p.status|lower|replace(' ', '-') }}"
+             data-rank="{{ p.rank }}"
+             data-name="{{ p.name }}"
+             data-status="{{ p.status }}"
+             data-total="{{ p.total }}"
+             data-automated="{{ p.automated }}"
+             data-percentage="{{ p.percentage }}">
+
+
             <div class="serial">{{ p.rank }}</div>
 
             <div class="card-content">
@@ -120,6 +144,115 @@ listBtn.onclick = () => {
     listBtn.classList.add("active");
     gridBtn.classList.remove("active");
 };
+</script>
+
+<script>
+const sortField = document.getElementById("sortField");
+const sortOrder = document.getElementById("sortOrder");
+
+function sortWithinGroups() {
+
+    const field = sortField.value;
+    const order = sortOrder.value;
+
+    document.querySelectorAll(".status-row").forEach(row => {
+
+        const container = row.querySelector(".card-container");
+        const cards = Array.from(container.querySelectorAll(".card"));
+
+        cards.sort((a,b) => {
+
+            let va = a.dataset[field];
+            let vb = b.dataset[field];
+
+            if(!isNaN(va) && !isNaN(vb)) {
+                va = parseFloat(va);
+                vb = parseFloat(vb);
+            } else {
+                va = va.toLowerCase();
+                vb = vb.toLowerCase();
+            }
+
+            if(order === "asc") {
+                return va > vb ? 1 : -1;
+            } else {
+                return va < vb ? 1 : -1;
+            }
+        });
+
+        cards.forEach(c => container.appendChild(c));
+    });
+}
+
+sortField.onchange = sortWithinGroups;
+sortOrder.onchange = sortWithinGroups;
+</script>
+
+<script>
+let currentSort = { field:null, order:"asc" };
+
+document.querySelectorAll(".sortable").forEach(header => {
+
+    header.onclick = () => {
+
+        const field = header.dataset.field;
+
+        // Toggle direction like Excel
+        if(currentSort.field === field){
+            currentSort.order = currentSort.order === "asc" ? "desc" : "asc";
+        } else {
+            currentSort.field = field;
+            currentSort.order = "asc";
+        }
+
+        updateSortArrows();
+        sortGroups(field, currentSort.order);
+    };
+});
+
+function updateSortArrows(){
+
+    document.querySelectorAll(".sort-arrow").forEach(a=>a.textContent="");
+
+    const activeHeader =
+        document.querySelector('.sortable[data-field="'+currentSort.field+'"]');
+
+    if(activeHeader){
+        const arrow = activeHeader.querySelector(".sort-arrow");
+        arrow.textContent = currentSort.order === "asc" ? "▲" : "▼";
+    }
+}
+
+function sortGroups(field, order){
+
+    document.querySelectorAll(".status-row").forEach(row => {
+
+        const container = row.querySelector(".card-container");
+        const cards = Array.from(container.querySelectorAll(".card"));
+
+        cards.sort((a,b)=>{
+
+            let va = a.dataset[field];
+            let vb = b.dataset[field];
+
+            if(!isNaN(va) && !isNaN(vb)){
+                va = parseFloat(va);
+                vb = parseFloat(vb);
+            } else {
+                va = va.toLowerCase();
+                vb = vb.toLowerCase();
+            }
+
+            if(order==="asc"){
+                return va>vb ? 1 : -1;
+            }else{
+                return va<vb ? 1 : -1;
+            }
+        });
+
+        cards.forEach(c => container.appendChild(c));
+    });
+}
 </script>
 
 </body>
