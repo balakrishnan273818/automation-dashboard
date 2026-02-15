@@ -1,0 +1,23 @@
+/* ==========================================================
+   DESIGN TOKENS
+========================================================== */
+
+:root{
+    --bg-main:#0f1117;
+    --bg-card:#1b1f2a;
+    --bg-soft:#1e222c;
+    --bg-border:#2a2f3a;
+
+    --text-main:#eaeaea;
+    --text-muted:#aaa;
+
+    --accent:#4caf50;
+
+    --list-layout:
+        60px
+        2fr
+        140px
+        120px
+        140px
+        220px;
+}

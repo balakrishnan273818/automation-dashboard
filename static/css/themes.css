@@ -1,0 +1,15 @@
+/* ==========================================================
+   THEMES
+========================================================== */
+
+body[data-theme="light"]{
+    --bg-main:#f5f7fb;
+    --bg-card:#ffffff;
+    --bg-soft:#e9edf5;
+    --bg-border:#d7dde6;
+
+    --text-main:#222;
+    --text-muted:#666;
+
+    --accent:#2e7d32;
+}
