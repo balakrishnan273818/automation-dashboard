@@ -23,3 +23,37 @@
         </span>
     {% endfor %}
 </div>
+
+<div class="org-summary-chart">
+
+    <div class="org-summary-wrapper">
+
+        <!-- LEFT : Automated -->
+        <div class="org-summary-side left">
+            <div class="org-info-label">Automated TCs</div>
+            <div class="org-info-value">{{ org_summary.automated_tcs }}</div>
+        </div>
+
+        <!-- CENTER : CHART -->
+        <div class="org-chart-wrapper">
+            <canvas id="orgSummaryChart"></canvas>
+
+            <div class="org-chart-label">
+                <div class="org-chart-value">
+                    {{ org_summary.automation_percent }}%
+                </div>
+                <div class="org-chart-title">
+                    Automation Coverage
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT : TOTAL -->
+        <div class="org-summary-side right">
+            <div class="org-info-label">Total TCs</div>
+            <div class="org-info-value">{{ org_summary.total_tcs }}</div>
+        </div>
+
+    </div>
+
+</div>

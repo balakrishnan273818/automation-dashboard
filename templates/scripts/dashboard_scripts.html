@@ -156,3 +156,84 @@ document.addEventListener("DOMContentLoaded", () => {
 
 const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
 </script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+    const canvas = document.getElementById("orgSummaryChart");
+    if (!canvas) return;
+
+    const total = Number({{ org_summary.total_tcs }});
+    const automated = Number({{ org_summary.automated_tcs }});
+    const percent = Number({{ org_summary.automation_percent }});
+
+    let fillColor = "#52c41a";
+    if (percent <= 44) fillColor = "#ff4d4f";
+    else if (percent <= 59) fillColor = "#4096ff";
+
+    const targetMarkerPlugin = {
+    id: "targetMarker",
+    afterDraw(chart){
+
+        const meta = chart.getDatasetMeta(0);
+        if(!meta || !meta.data.length) return;
+
+        const arc = meta.data[0];
+        const ctx = chart.ctx;
+
+        const cx = arc.x;
+        const cy = arc.y;
+        const outer = arc.outerRadius;
+
+        const targetPercent = 60;
+
+        const startAngle = -Math.PI/2;
+        const totalAngle = Math.PI;
+        const angle = startAngle + (totalAngle * (targetPercent/100));
+
+        const markerInner = outer - 6;
+        const markerOuter = outer + 16;
+
+        const x1 = cx + Math.cos(angle) * markerInner;
+        const y1 = cy + Math.sin(angle) * markerInner;
+
+        const x2 = cx + Math.cos(angle) * markerOuter;
+        const y2 = cy + Math.sin(angle) * markerOuter;
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(x1,y1);
+        ctx.lineTo(x2,y2);
+        ctx.lineWidth = 4;
+        ctx.strokeStyle = "#000";
+        ctx.stroke();
+        ctx.restore();
+        }
+    };
+
+    const chart = new Chart(canvas, {
+        plugins:[targetMarkerPlugin],
+        type: "doughnut",
+        data: {
+            datasets: [{
+                data: [automated, Math.max(total - automated,0)],
+                backgroundColor: [fillColor, "#d9d9d9"],
+                hoverBackgroundColor: [fillColor, "#d9d9d9"],
+                borderWidth: 0
+            }]
+        },
+        options: {
+            responsive:true,
+            maintainAspectRatio:false,
+            rotation:-90,
+            circumference:180,
+            cutout:"68%",
+            animation:false,
+            plugins:{
+                legend:{display:false},
+                tooltip:{enabled:false}
+            }
+        }
+    });
+});
+</script>
