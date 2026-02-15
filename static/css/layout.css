@@ -1,0 +1,56 @@
+/* ==========================================================
+   LAYOUT
+========================================================== */
+
+.theme-toggle,
+.view-toggle{
+    display:flex;
+    justify-content:flex-end;
+}
+
+.theme-toggle{margin-bottom:10px;}
+.view-toggle{gap:6px;margin-bottom:14px;}
+
+.status-row{margin-bottom:14px;}
+
+.status-content{display:none;margin-top:12px;}
+.status-row.active .status-content{display:block;}
+
+.card-container{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+    gap:16px;
+}
+
+body.list-view .card-container{display:block;}
+
+body.list-view .card{
+    display:grid;
+    grid-template-columns:var(--list-layout);
+    align-items:center;
+    gap:14px;
+    padding:12px 16px;
+    margin-bottom:8px;
+}
+
+body.list-view .serial{position:static;}
+body.list-view .card-content,
+body.list-view .card-header{display:contents;}
+
+body.list-view .donut{display:none;}
+
+.list-header{display:none;}
+
+body.list-view .list-header{
+    display:grid;
+    grid-template-columns:var(--list-layout);
+    position:sticky;
+    top:0;
+    background:var(--bg-main);
+    color:var(--text-main);
+    padding:10px 16px;
+    margin-bottom:8px;
+    font-size:16px;
+    font-weight:700;
+    border-bottom:1px solid var(--bg-border);
+}

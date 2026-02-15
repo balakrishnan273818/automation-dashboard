@@ -1,0 +1,19 @@
+/* ==========================================================
+   BASE
+========================================================== */
+
+body{
+    font-family:Arial,sans-serif;
+    background:var(--bg-main);
+    color:var(--text-main);
+    padding:20px;
+}
+
+h1{margin-bottom:20px;}
+
+.project-title{
+    max-width:70ch;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
