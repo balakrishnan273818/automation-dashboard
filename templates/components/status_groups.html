@@ -1,0 +1,103 @@
+<div id="projectContainer">
+
+{% set groups = {} %}
+{% for p in projects %}
+    {% set _ = groups.setdefault(p.status, []).append(p) %}
+{% endfor %}
+
+{% for status, items in groups.items() %}
+<div class="status-row" data-status="{{ status }}">
+
+    <div class="status-header {{ status|lower|replace(' ', '-') }}"
+         onclick="toggleStatus('{{ status }}')">
+        <span class="arrow"></span>
+        {{ status }} ({{ items|length }} projects)
+    </div>
+
+    <div class="status-content">
+
+        <!-- LIST HEADER (only visible in list view) -->
+        <div class="list-header">
+            <div class="sortable" data-field="rank"># <span class="sort-arrow"></span></div>
+            <div class="sortable" data-field="name">Project <span class="sort-arrow"></span></div>
+            <div class="sortable" data-field="status">Status <span class="sort-arrow"></span></div>
+            <div class="sortable" data-field="total">Total TCs <span class="sort-arrow"></span></div>
+            <div class="sortable" data-field="automated">Automated TCs <span class="sort-arrow"></span></div>
+            <div class="sortable" data-field="percentage">Automation % <span class="sort-arrow"></span></div>
+        </div>
+
+        <div class="card-container">
+
+        {% for p in items %}
+        <div class="card {{ p.status|lower|replace(' ', '-') }}"
+             data-rank="{{ p.rank }}"
+             data-name="{{ p.name }}"
+             data-status="{{ p.status }}"
+             data-total="{{ p.total }}"
+             data-automated="{{ p.automated }}"
+             data-percentage="{{ p.percentage }}">
+
+
+            <div class="serial">{{ p.rank }}</div>
+
+            <div class="card-content">
+
+                <div class="card-header">
+                    <div class="project-title">{{ p.name }}</div>
+                    <!--<span class="status {{ p.status|lower|replace(' ', '-') }}">
+                        {{ p.status }}
+                    </span>-->
+                    <span class="status
+                    {% if p.percentage|int <= 44 %}
+                        at-risk
+                    {% elif p.percentage|int <= 59 %}
+                        in-progress
+                    {% else %}
+                        achieved
+                    {% endif %}
+                    ">
+                        {{ p.status }}
+                    </span>
+                </div>
+
+                <div class="total">{{ p.total }}</div>
+                <div class="automated">{{ p.automated }}</div>
+
+                <div class="metric">
+<!--                    <div class="metric-value">{{ p.percentage }}%</div>-->
+
+                    <div class="list-progress">
+                        <div class="list-progress-fill"
+                             style="width: {{ p.percentage }}%"></div>
+                    </div>
+                </div>
+
+                <!--<div class="donut {{ p.status|lower|replace(' ', '-') }}"
+                     style="&#45;&#45;value: {{ p.percentage }};">
+                    <span>{{ p.percentage }}%</span>
+                </div>-->
+                <div class="donut {{ p.status|lower|replace(' ', '-') }}"
+                        style="
+                            --value: {{ p.percentage }};
+                            --ring-color:
+                            {% if p.percentage|int <= 44 %}
+                                #e74c3c
+                            {% elif p.percentage|int <= 59 %}
+                                #3498db
+                            {% else %}
+                                #2ecc71
+                            {% endif %};
+                        ">
+                    <span>{{ p.percentage }}%</span>
+                </div>
+
+            </div>
+        </div>
+        {% endfor %}
+
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+</div>

@@ -1,0 +1,158 @@
+<script>
+function toggleStatus(status) {
+    const row = document.querySelector('.status-row[data-status="' + status + '"]');
+    if (row) row.classList.toggle("active");
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    toggleStatus("At Risk");
+});
+
+const gridBtn = document.getElementById("gridBtn");
+const listBtn = document.getElementById("listBtn");
+
+gridBtn.onclick = () => {
+    document.body.classList.remove("list-view");
+    gridBtn.classList.add("active");
+    listBtn.classList.remove("active");
+};
+
+listBtn.onclick = () => {
+    document.body.classList.add("list-view");
+    listBtn.classList.add("active");
+    gridBtn.classList.remove("active");
+};
+</script>
+
+<script>
+const sortField = document.getElementById("sortField");
+const sortOrder = document.getElementById("sortOrder");
+
+function sortWithinGroups() {
+
+    const field = sortField.value;
+    const order = sortOrder.value;
+
+    document.querySelectorAll(".status-row").forEach(row => {
+
+        const container = row.querySelector(".card-container");
+        const cards = Array.from(container.querySelectorAll(".card"));
+
+        cards.sort((a,b) => {
+
+            let va = a.dataset[field];
+            let vb = b.dataset[field];
+
+            if(!isNaN(va) && !isNaN(vb)) {
+                va = parseFloat(va);
+                vb = parseFloat(vb);
+            } else {
+                va = va.toLowerCase();
+                vb = vb.toLowerCase();
+            }
+
+            if(order === "asc") {
+                return va > vb ? 1 : -1;
+            } else {
+                return va < vb ? 1 : -1;
+            }
+        });
+
+        cards.forEach(c => container.appendChild(c));
+    });
+}
+
+sortField.onchange = sortWithinGroups;
+sortOrder.onchange = sortWithinGroups;
+</script>
+
+<script>
+let currentSort = { field:null, order:"asc" };
+
+document.querySelectorAll(".sortable").forEach(header => {
+
+    header.onclick = () => {
+
+        const field = header.dataset.field;
+
+        // Toggle direction like Excel
+        if(currentSort.field === field){
+            currentSort.order = currentSort.order === "asc" ? "desc" : "asc";
+        } else {
+            currentSort.field = field;
+            currentSort.order = "asc";
+        }
+
+        updateSortArrows();
+        sortGroups(field, currentSort.order);
+    };
+});
+
+function updateSortArrows(){
+
+    document.querySelectorAll(".sort-arrow").forEach(a=>a.textContent="");
+
+    const activeHeader =
+        document.querySelector('.sortable[data-field="'+currentSort.field+'"]');
+
+    if(activeHeader){
+        const arrow = activeHeader.querySelector(".sort-arrow");
+        arrow.textContent = currentSort.order === "asc" ? "▲" : "▼";
+    }
+}
+
+function sortGroups(field, order){
+
+    document.querySelectorAll(".status-row").forEach(row => {
+
+        const container = row.querySelector(".card-container");
+        const cards = Array.from(container.querySelectorAll(".card"));
+
+        cards.sort((a,b)=>{
+
+            let va = a.dataset[field];
+            let vb = b.dataset[field];
+
+            if(!isNaN(va) && !isNaN(vb)){
+                va = parseFloat(va);
+                vb = parseFloat(vb);
+            } else {
+                va = va.toLowerCase();
+                vb = vb.toLowerCase();
+            }
+
+            if(order==="asc"){
+                return va>vb ? 1 : -1;
+            }else{
+                return va<vb ? 1 : -1;
+            }
+        });
+
+        cards.forEach(c => container.appendChild(c));
+    });
+}
+</script>
+
+<script>
+const themeBtn = document.getElementById("themeBtn");
+
+function applyTheme(theme){
+    document.body.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+
+    themeBtn.textContent = theme === "dark" ? "🌙 Dark" : "☀️ Light";
+}
+
+themeBtn.onclick = () => {
+    const current = document.body.getAttribute("data-theme") || "dark";
+    applyTheme(current === "dark" ? "light" : "dark");
+};
+
+// Load saved theme
+document.addEventListener("DOMContentLoaded", () => {
+    const saved = localStorage.getItem("theme") || "dark";
+    applyTheme(saved);
+});
+
+const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+</script>

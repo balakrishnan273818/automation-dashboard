@@ -1,0 +1,25 @@
+<div class="summary-bar">
+    {% set counts = {} %}
+    {% for p in projects %}
+        {% set _ = counts.update({p.status: counts.get(p.status,0)+1}) %}
+    {% endfor %}
+
+    {% for k,v in counts.items() %}
+        <!--<span class="summary-item {{ k|lower|replace(' ','-') }}">
+            {{ k }} {{ v }}
+        </span>-->
+        <span class="summary-item
+        {% set avg = (projects | selectattr('status','equalto',k) | map(attribute='percentage') | list) %}
+        {% set pct = (avg | sum / (avg|length)) if avg|length > 0 else 0 %}
+        {% if pct <= 44 %}
+            at-risk
+        {% elif pct <= 59 %}
+            in-progress
+        {% else %}
+            achieved
+        {% endif %}
+        ">
+            {{ k }} {{ v }}
+        </span>
+    {% endfor %}
+</div>
