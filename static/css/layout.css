@@ -54,3 +54,43 @@ body.list-view .list-header{
     font-weight:700;
     border-bottom:1px solid var(--bg-border);
 }
+
+h1{
+    margin-bottom:10px;
+}
+
+.summary-bar{
+    margin-top:6px;
+    margin-bottom:10px;
+}
+
+.org-summary-chart{
+    margin-top:8px;
+}
+
+/* Reduce space between header badges and chart */
+.summary-bar{
+    margin-bottom:6px;
+}
+
+/* Pull org chart section upward */
+.org-summary-wrapper{
+    margin-top:-10px;
+}
+
+#projectContainer{
+    margin-top:-6px;
+}
+
+.top-controls{
+    display:flex;
+    justify-content:flex-end;
+    align-items:center;
+    gap:10px;
+    margin-bottom:14px;
+}
+
+.theme-toggle,
+.view-toggle{
+    margin-bottom:0;
+}

@@ -3,9 +3,10 @@
 {% block content %}
 
 <h1>TestOps Dashboard</h1>
+<div class="project-filter">
+    <input type="text" id="projectFilterInput" placeholder="Filter by project name...">
+</div>
 
-{% include "components/theme_toggle.html" %}
-<!--{% include "components/sort_controls.html" %}-->
 {% include "components/summary_bar.html" %}
 {% include "components/view_toggle.html" %}
 {% include "components/status_groups.html" %}
