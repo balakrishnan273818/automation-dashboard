@@ -61,9 +61,10 @@ function sortWithinGroups() {
         cards.forEach(c => container.appendChild(c));
     });
 }
-
-sortField.onchange = sortWithinGroups;
-sortOrder.onchange = sortWithinGroups;
+if (sortField && sortOrder) {
+    sortField.onchange = sortWithinGroups;
+    sortOrder.onchange = sortWithinGroups;
+    }
 </script>
 
 <script>
@@ -236,4 +237,26 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 });
+</script>
+
+<script>
+const projectFilterInput = document.getElementById("projectFilterInput");
+
+if(projectFilterInput){
+    projectFilterInput.addEventListener("input", () => {
+
+        const keyword = projectFilterInput.value.toLowerCase();
+
+        document.querySelectorAll(".card").forEach(card => {
+
+            const name = card.dataset.name.toLowerCase();
+
+            if(name.includes(keyword)){
+                card.style.display = "";
+            }else{
+                card.style.display = "none";
+            }
+        });
+    });
+}
 </script>
